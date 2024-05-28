@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+}
+
+@layer utilities {
+  .text-bigger-hello {
+    @apply text-3xl font-semibold;
+  }
+}
+
+@layer components {
+  .primary-btn {
+    @apply w-full bg-orange-500 text-white  font-medium  rounded-md text-center hover:bg-orange-400 transition-colors;
+  }
+
+  .main-category-btn {
+    @apply font-semibold text-3xl text-center hover:opacity-70 transition-opacity;
+  }
+
+  .btn-text {
+  }
+
+  .nav-text {
+    @apply hover:underline  py-4 text-center text-2xl text-black;
+  }
+}
