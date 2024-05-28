@@ -6,74 +6,44 @@ import { useEffect, useState } from "react";
 import { fetchAndSaveVideos, findVideos } from "../../actions";
 import Link from "next/link";
 import { getCategoryKor } from "lib/utils";
-import { group } from "console";
+import { Video } from "types/type";
+import { Gruppo } from "next/font/google";
 
-type Video = {
-  id: number;
-  title: string;
-  url: string;
-  video_id: string;
-  channel_id: string;
-  channel_name: string;
-  thumb: string;
-  description: string | null;
-  category: string;
-};
+//   const videos = [
+//     {
+//       id: 1,
+//       title: "샘플",
+//       url: "/",
+//       video_id: "JUzPQ0JalHE",
+//       channel_id: "3TNm2tLw88A?si=vrfnDGY8zrhn4ARt",
+//       channel_name: "샘플 채널",
+//       thumb: "/image/main.png",
+//       description: "설명",
+//       category: "POSTURE",
+//     },
+//   ];
 
-const getNextThumbnail = (currentThumb: string) => {
-  const resolutions = [
-    "maxresdefault",
-    "sddefault",
-    "hqdefault",
-    "mqdefault",
-    "default",
-  ];
-  const currentResIndex = resolutions.findIndex((res) =>
-    currentThumb.includes(res)
-  );
-  if (currentResIndex >= 0 && currentResIndex < resolutions.length - 1) {
-    const nextRes = resolutions[currentResIndex + 1];
-    return currentThumb.replace(resolutions[currentResIndex], nextRes);
-  }
-  return null;
-};
 export default function Main({ params }: { params: { group: string } }) {
   const group = params.group.toUpperCase();
-  console.log(params.group);
   const [videos, setVideos] = useState<Video[]>([]);
-  //   const videos = [
-  //     {
-  //       id: 1,
-  //       title: "샘플",
-  //       url: "/",
-  //       video_id: "JUzPQ0JalHE",
-  //       channel_id: "3TNm2tLw88A?si=vrfnDGY8zrhn4ARt",
-  //       channel_name: "샘플 채널",
-  //       thumb: "/image/main.png",
-  //       description: "설명",
-  //       category: "POSTURE",
-  //     },
-  //   ];
 
-  const handleFetchVideos = async () => {
-    console.log(process.env.NEXT_PUBLIC_YOUTUBE_API_KEY);
+  console.log("페이지에서 " + getCategoryKor(group));
 
+  const handlePostVideos = async () => {
     try {
       const result = await fetchAndSaveVideos(
-        `앉아서 ${getCategoryKor(group)} 운동`,
+        `${getCategoryKor(group)} 운동`,
         group
       );
-      setVideos(result);
+      result && setVideos(result);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   const getVideos = async () => {
-    console.log(process.env.NEXT_PUBLIC_YOUTUBE_API_KEY);
-
     try {
-      const result = await findVideos("앉아서 할 수 있는", group);
+      const result = await findVideos(group);
       setVideos(result);
     } catch (error) {
       console.error("Error:", error);
@@ -98,44 +68,18 @@ export default function Main({ params }: { params: { group: string } }) {
           {videos.map((video) => (
             <div key={video.id} className="p-4 border rounded-lg">
               <Link
-                href={"/"}
-                target="_blank"
+                href={`/exercise-detail/${video.id}`}
+                target="_self"
                 rel="noopener noreferrer"
                 className="text-blue-500"
               >
-                <img
-                  src={video.thumb}
-                  alt={video.title}
-                  className="w-full"
-                  onError={(e) => {
-                    console.log("이미지 없음 ");
-                    // 이미지가 로드되지 않을 때 다른 해상도의 썸네일로 대체합니다.
-                    const currentThumb = (e.target as HTMLImageElement).src;
-                    const nextThumb = getNextThumbnail(currentThumb);
-                    if (nextThumb) {
-                      (e.target as HTMLImageElement).src = nextThumb;
-                    }
-                  }}
-                />
-
-                {/*
-                
-                   <Image
-                  src={`https://img.youtube.com/vi/${video.video_id}/maxresdefault.jpg`}
+                <Image
+                  src={`https://i.ytimg.com/vi/${video.video_id}/hqdefault.jpg`} //hqdefault, mq
                   alt={video.title}
                   width={1280}
                   height={720}
                   className="w-full"
                 />
-                <iframe
-                  color="white"
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${video.video_id}`}
-                  title="YouTube video player"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                ></iframe> */}
               </Link>
               <div className="*:my-5">
                 <h2 className="text-xl font-semibold line-clamp-2">
@@ -149,7 +93,7 @@ export default function Main({ params }: { params: { group: string } }) {
       </div>
 
       <button
-        onClick={handleFetchVideos}
+        onClick={handlePostVideos}
         className="px-4 py-2 bg-muted text-white rounded hover:bg-blue-700"
       >
         유튜브 운동영상을 불러와 DB에 저장

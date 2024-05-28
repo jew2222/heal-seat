@@ -26,7 +26,9 @@ export default function Main() {
               src="/image/main.png"
               alt="banner"
               layout="fill"
-              objectFit="cover"
+              style={{
+                objectFit: "cover",
+              }}
             />
           </div>
         </div>
@@ -47,7 +49,7 @@ export default function Main() {
           >
             상체
           </Link>
-          <Link href="/exercise/rower" className="main-category-btn bg-muted ">
+          <Link href="/exercise/lower" className="main-category-btn bg-muted ">
             하체
           </Link>
         </div>

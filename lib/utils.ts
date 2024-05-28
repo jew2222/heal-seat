@@ -15,21 +15,16 @@ export function formatToWon(price: number): string {
   return price.toLocaleString("ko-KR");
 }
 
-export const getCategoryKor = (cate: string) => {
-  let kor;
+export const getCategoryKor = (cate: string): string => {
+  cate = cate.toUpperCase();
   switch (cate) {
     case "UPPER":
-      kor = "상체";
-
+      return "상체";
     case "LOWER":
-      kor = "하체";
-
+      return "하체";
     case "EYE":
-      kor = "시력";
-
+      return "시력";
     default:
-      kor = "자세 교정";
+      return "자세 교정";
   }
-
-  return kor;
 };
