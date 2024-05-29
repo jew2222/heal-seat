@@ -3,8 +3,14 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { UseSelector, useDispatch, useSelector } from "react-redux";
 import { RootState } from "lib/store"; //?
-import { reset, setActive, increment } from "lib/redux/timer/timerSlice";
+import {
+  reset,
+  setActive,
+  increment,
+  setByAmount,
+} from "lib/redux/timer/timerSlice";
 import { Metadata } from "next";
+import { findTodayTimer, setTodayTimer } from "../../app/actions";
 
 export default function Timer() {
   //  const [time, setTime] = useState(0); //TOdo: DB 시간으로 촟기화
@@ -12,8 +18,24 @@ export default function Timer() {
 
   const time = useSelector((state: RootState) => state.timer.time);
   const isActive = useSelector((state: RootState) => state.timer.isActive);
-
   const dispatch = useDispatch();
+
+  const getTodayTime = async () => {
+    //저장된 오늘 시간 불러오기
+    try {
+      const result = await findTodayTimer();
+      if (result) {
+        setByAmount(result);
+      }
+      // result && setVideos(result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getTodayTime();
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -30,17 +52,14 @@ export default function Timer() {
   }, [isActive]);
 
   useEffect(() => {
+    document.title = `${formatTime(time)} | Heal Seat`;
+  }, [time]);
+
+  useEffect(() => {
     // 페이지가 언로드될 때 타이머 데이터를 서버에 전송
     const handleUnload = () => {
-      /*
-      fetch("/api/timer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ timer }),
-      });
-      */
+      console.log("타이머 언로드");
+      //   setTodayTimer(time);
     };
 
     window.addEventListener("beforeunload", handleUnload);

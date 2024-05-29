@@ -1,4 +1,4 @@
-"use client";
+//"use client";
 
 import Nav from "components/Nav";
 import Image from "next/image";
@@ -44,7 +44,7 @@ export default function Main({ params }: { params: { group: string } }) {
   const getVideos = async () => {
     try {
       const result = await findVideos(group);
-      setVideos(result);
+      result && setVideos(result);
     } catch (error) {
       console.error("Error:", error);
     }

@@ -15,10 +15,11 @@ const timerSlice = createSlice({
       state.time += 1;
       //console.log("타이머 :" + state.time);
     },
-    //setByAmount(state, action) {
-    //DB 오늘 시간 가져오기
-    // state.time = action.payload;
-    //},
+    setByAmount(state, action) {
+      console.log("타이머 시간 저장" + state);
+
+      state.time = action.payload;
+    },
     //toggleActive(state) {
     //  state.isActive = !state.isActive;
     //},
@@ -27,7 +28,7 @@ const timerSlice = createSlice({
       console.log("타이머 리셋");
     },
     setActive: (state, action: PayloadAction<boolean>) => {
-      console.log("액팁브 상태 변경됨");
+      console.log("액티브 상태 변경됨");
       state.isActive = action.payload;
     },
     //  setTime: (state, action: PayloadAction<number>) => {
@@ -36,5 +37,5 @@ const timerSlice = createSlice({
   },
 });
 
-export const { increment, reset, setActive } = timerSlice.actions;
+export const { increment, reset, setActive, setByAmount } = timerSlice.actions;
 export default timerSlice.reducer;

@@ -18,22 +18,6 @@ export default async function handler(
       today.setHours(0, 0, 0, 0); // 오늘 날짜로 설정
 
       // 오늘의 타이머 데이터를 찾거나 생성
-      const timerData = await prisma.timer.upsert({
-        where: {
-          userId_date: {
-            userId,
-            date: today,
-          },
-        },
-        update: {
-          time: timer,
-        },
-        create: {
-          userId,
-          date: today,
-          time: timer,
-        },
-      });
 
       res.status(200).json(timerData);
     } catch (error) {

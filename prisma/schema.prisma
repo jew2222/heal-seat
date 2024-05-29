@@ -1,4 +1,6 @@
+
 generator client {
+
   provider = "prisma-client-js"
 }
 
@@ -38,15 +40,16 @@ model User {
   password   String?
   phone      String?      @unique
   avatar     String?
-    userRole String
+  userRole String
   tokens     SMSToken[]
   likes      Like[]
   plant  String 
- plant_status  String
+  plant_status  String
   last_water_at DateTime   
   bgi   String
   bgm   String
-    created_at DateTime     @default(now())
+  timer Timer[]
+  created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
 }
 
@@ -68,8 +71,12 @@ model Exercise {
 model Timer {
     id          Int    @id @default(autoincrement())
     created_at DateTime @default(now())
- //   updated_at DateTime @updatedAt
-//    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade) // 통계데이터는 서버부하때문에 릴레이션 안건다 
-    userId   Int
-    today_time DateTime
+   // created_date DateTime @default(dbgenerated("date(now())"))
+    date     DateTime
+    totalTime BigInt
+    userId      Int
+    user        User     @relation(fields: [userId], references: [id])  
+
+     @@unique([userId, date]) // 유저별 날짜가 유니크하도록 제약 조건 추가
+     // 통계데이터는 서버부하 축소를 위해 릴레이션 안건다 
 }

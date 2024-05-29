@@ -8,19 +8,23 @@ import Link from "next/link";
 import { getCategoryKor } from "lib/utils";
 import { Video } from "types/type";
 import Timer from "components/Timer/Timer";
+import { findTodayTimer } from "app/actions";
 
 export default function Workspace({ params }: { params: { id: string } }) {
-  const getTimer = async () => {
+  const getTime = async () => {
     try {
-      // const result = await findVideo(params.id);
-      //  result && setVideo(result);
+      // const result = await findTodayTimer();
+      /// if (result) {
+      // }
+      // result && setVideos(result);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  useEffect(() => {}, []);
-
+  useEffect(() => {
+    getTime();
+  }, []);
   return (
     <div className="flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl w-full max-h-screen bg-accent">
       <div className="w-full">

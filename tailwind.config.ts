@@ -20,6 +20,7 @@ const config: Config = {
         "sexy-name": "11.11px",
       },
       colors: {
+        background: "#E9EDE9",
         primary: "#B5C18E",
         secondary: "#DEAC80",
         tertiary: "#F7DCB9",
