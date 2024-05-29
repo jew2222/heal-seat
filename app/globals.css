@@ -12,8 +12,12 @@
 }
 
 @layer components {
+  /* layout */
+  .screen {
+    @apply flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl;
+  }
   .primary-btn {
-    @apply w-full bg-orange-500 text-white  font-medium  rounded-md text-center hover:bg-orange-400 transition-colors;
+    @apply w-full bg-secondary text-white   ring-muted ring-4 p-3 font-bold text-lg  rounded-md text-center hover:bg-muted transition-colors;
   }
 
   .main-category-btn {

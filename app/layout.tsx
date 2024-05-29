@@ -1,3 +1,4 @@
+//"use client";
 import { gothic, voltaire } from "../lib/font";
 import type { Metadata } from "next";
 import Head from "next/head";
@@ -5,6 +6,8 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import StoreProvider from "./StoreProvider";
 import Nav from "components/Nav";
+import * as React from "react";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
@@ -21,8 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://kit.fontawesome.com/f45d796544.js"
+          // crossorigin="anonymous"
+        ></Script>
+      </head>
+
       <body
-        className={`${gothic.className} bg-[#E9EDE9] text-black  flex justify-center`}
+        className={`${gothic.className} bg-background text-black flex justify-center`}
       >
         <Nav />
         <StoreProvider count={0}> {children}</StoreProvider>
