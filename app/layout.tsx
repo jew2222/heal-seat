@@ -1,6 +1,10 @@
-import { gothic, voltaire } from "@/lib/font";
+import { gothic, voltaire } from "../lib/font";
 import type { Metadata } from "next";
+import Head from "next/head";
 import "./globals.css";
+import { Provider } from "react-redux";
+import StoreProvider from "./StoreProvider";
+import Nav from "components/Nav";
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +24,8 @@ export default function RootLayout({
       <body
         className={`${gothic.className} bg-[#E9EDE9] text-black  flex justify-center`}
       >
-        {children}
+        <Nav />
+        <StoreProvider count={0}> {children}</StoreProvider>
       </body>
     </html>
   );

@@ -1,12 +1,11 @@
 "use client";
-import Nav from "components/nav";
+import Nav from "components/Nav";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Main() {
   return (
     <div className="flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl">
-      <Nav />
       <div className="w-full">
         <div className="flex align-middle items-center py-10 ">
           <div className="flex-1 ">

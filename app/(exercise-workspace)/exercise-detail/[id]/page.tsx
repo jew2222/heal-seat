@@ -1,6 +1,6 @@
 "use client";
 
-import Nav from "components/nav";
+import Nav from "components/Nav";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchAndSaveVideos, findVideo, findVideos } from "../../actions";
@@ -32,7 +32,6 @@ export default function ExerciseDetail({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl w-full">
-      <Nav />
       <div className="w-full">
         {/*   */}
 

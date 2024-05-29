@@ -1,6 +1,6 @@
 "use client";
 
-import Nav from "components/nav";
+import Nav from "components/Nav";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchAndSaveVideos, findVideos } from "../../actions";
