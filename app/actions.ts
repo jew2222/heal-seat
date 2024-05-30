@@ -1,6 +1,7 @@
 "use server";
+import getSession from "@/lib/session";
 import db from "lib/db";
-import { date } from "zod";
+import { redirect } from "next/navigation";
 
 const getTodayRange = (): { start: Date; end: Date; today: Date } => {
   const today = new Date();
@@ -78,3 +79,12 @@ export async function setTodayTimer(totalTime: number) {
     return null;
   }
 }
+
+export const logOut = async () => {
+  if (confirm("로그아웃 하시겠습니까?")) {
+    const session = await getSession();
+    await session.destroy();
+    localStorage.removeItem("isLogin");
+    redirect("/");
+  }
+};
