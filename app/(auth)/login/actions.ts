@@ -50,7 +50,7 @@ export async function logIn(prevState: any, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    console.log("로그인 밸리데이션 오나료" + result);
+    console.log("로그인 밸리데이션 완료" + result);
     //유저 존재시 로그인
     const user = await db.user.findUnique({
       where: {
@@ -72,7 +72,8 @@ export async function logIn(prevState: any, formData: FormData) {
       const session = await getSession();
       session.id = user!.id;
       await session.save();
-      redirect("/profile");
+      localStorage.setItem("isLogin", "true");
+      redirect("/workspace");
     } else {
       return {
         //zod 인척 하는 용도

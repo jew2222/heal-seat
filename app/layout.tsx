@@ -32,10 +32,13 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${gothic.className} bg-background text-black flex justify-center`}
+        className={`${gothic.className} bg-background text-black flex flex-col justify-center relative`}
       >
-        <Nav />
-        <StoreProvider count={0}> {children}</StoreProvider>
+        <StoreProvider count={0}>
+          {" "}
+          <Nav />
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

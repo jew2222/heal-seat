@@ -15,12 +15,7 @@ const _Input = (
 ) => {
   return (
     <div className="">
-      <input
-        ref={ref}
-        name={name}
-        className="mb-4 rounded-md w-full h-10 focus:outline-none ring-2 focus:ring-2 transition ring-neutral-200 focus:ring-muted border-none placeholder:text-neutral-400"
-        {...rest}
-      />
+      <input ref={ref} name={name} className="formInput" {...rest} />
       {errors.map((error, index) => (
         <span key={index} className="text-red-500 font-medium">
           {error}

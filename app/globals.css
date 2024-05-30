@@ -16,6 +16,14 @@
   .screen {
     @apply flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl;
   }
+  .formInput {
+    @apply mb-4 rounded-md w-full h-10 focus:outline-none ring-2 focus:ring-2 transition ring-neutral-200 focus:ring-muted border-none placeholder:text-neutral-400;
+  }
+  .formBox {
+    @apply w-[34.5rem] px-10 pt-24 pb-28 bg-primary flex flex-col gap-10 rounded-2xl *:w-full;
+  }
+
+  /**/
   .primary-btn {
     @apply w-full bg-secondary text-white   ring-muted ring-4 p-3 font-bold text-lg  rounded-md text-center hover:bg-muted transition-colors;
   }

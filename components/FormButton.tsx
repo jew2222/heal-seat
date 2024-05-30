@@ -11,7 +11,7 @@ export default function FormButton({ text }: ButtonProps) {
   return (
     <button
       disabled={pending}
-      className="primary-btn disabled:bg-zinc-300  disabled:text-zinc-500 disabled:cursor-not-allowed"
+      className="primary-btn disabled:bg-muted  disabled:text-zinc-500 disabled:cursor-not-allowed"
     >
       {pending ? "로딩 중" : text}
     </button>

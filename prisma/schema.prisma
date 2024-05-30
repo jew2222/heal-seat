@@ -31,23 +31,23 @@ model Like {
   @@id(name: "id", [userId, exerciseId])
 }
 
-//////////////////hEAL sEAT ////////////////
 
 model User {
   id         Int          @id @default(autoincrement())
   username   String       @unique
   email      String?      @unique
-  password   String?
+  password   String
+  
   phone      String?      @unique
   avatar     String?
-  userRole String
+  userRole    String?
   tokens     SMSToken[]
   likes      Like[]
-  plant  String 
-  plant_status  String
-  last_water_at DateTime   
-  bgi   String
-  bgm   String
+  plant  String? @default("type1")
+  plant_status  Int? @default(3)// 1: 죽음, 2: 시듬, 3: 시름시름, 4: 보통, 5: 좋음
+  last_water_at DateTime?    @default(now())
+  bgi   String?
+  bgm   String?
   timer Timer[]
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
@@ -72,8 +72,8 @@ model Timer {
     id          Int    @id @default(autoincrement())
     created_at DateTime @default(now())
    // created_date DateTime @default(dbgenerated("date(now())"))
-    date     DateTime
-    totalTime BigInt
+    date     DateTime 
+    totalTime BigInt  @default(0)
     userId      Int
     user        User     @relation(fields: [userId], references: [id])  
 

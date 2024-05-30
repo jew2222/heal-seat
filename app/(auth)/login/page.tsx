@@ -13,8 +13,8 @@ export default function LogIn() {
   const [state, dispatch] = useFormState(logIn, null);
   return (
     <div className="screen justify-center ">
-      <div className="w-[34.5rem] px-10 pt-24 pb-28 bg-primary flex flex-col gap-10 rounded-2xl *:w-full">
-        <div className="flex flex-col  gap-2 *:font-medium  ">
+      <div className="formBox">
+        <div className="*:font-medium  ">
           <MainLogo />
           <h1 className="text-3xl font-black ">
             오늘도 나의 HealSeat에

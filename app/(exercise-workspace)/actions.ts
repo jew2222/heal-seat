@@ -1,5 +1,6 @@
 "use server";
 import db from "lib/db";
+import { Video } from "types/type";
 const YOUTUBE_SEARCH_API_URL = "https://www.googleapis.com/youtube/v3/search";
 const VIDEO_API_URL = "https://www.googleapis.com/youtube/v3/videos";
 
