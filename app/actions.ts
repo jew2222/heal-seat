@@ -1,7 +1,21 @@
 "use server";
-import getSession from "@/lib/session";
 import db from "lib/db";
+import getSession from "lib/session";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+const metadata: Metadata = {
+  title: {
+    template: "%s | Heal Seat",
+    default: "Heal Seat",
+  },
+  description: "매일 Desktop 과 함께 하는 당신을 위해",
+};
+
+const getCookie = async () => {
+  const session = await getSession();
+  return session;
+};
 
 const getTodayRange = (): { start: Date; end: Date; today: Date } => {
   const today = new Date();
@@ -22,7 +36,7 @@ const getTodayRange = (): { start: Date; end: Date; today: Date } => {
 export async function findUser() {
   const user = await db.user.findUnique({
     where: {
-      id: 1,
+      id: (await getCookie()).id,
     },
   });
   return user;
@@ -35,12 +49,12 @@ export async function findTodayTimer() {
       const { start, end, today } = getTodayRange();
       const data = await db.timer.findMany({
         where: {
+          userId: (await getCookie()).id,
           date: today,
         },
       });
-      console.log("Today's timer:", data && data);
-
-      // return data;
+      console.log("Today's timer 불러오기:", data && data);
+      return data;
     } catch (error) {
       console.error("타이머 데이터 불러오기 실패:", error);
       return null;
@@ -50,16 +64,14 @@ export async function findTodayTimer() {
   }
 }
 
-// 타임 추가 함수
+// 타임 추가,수정 함수
 export async function setTodayTimer(totalTime: number) {
   const { today } = getTodayRange();
-
+  const userId = (await getCookie()).id;
   try {
-    const userId = 1;
     const updatedData = await db.timer.upsert({
       where: {
         userId_date: {
-          //유니크해야 함
           userId,
           date: today,
         },
@@ -73,18 +85,16 @@ export async function setTodayTimer(totalTime: number) {
         date: today,
       },
     });
+    console.error("타이머 데이터 수정:", updatedData);
+
     return updatedData;
   } catch (error) {
-    console.error("Error adding time to today data:", error);
+    console.error("타이머 데이터 수정 실패:", error);
     return null;
   }
 }
 
 export const logOut = async () => {
-  if (confirm("로그아웃 하시겠습니까?")) {
-    const session = await getSession();
-    await session.destroy();
-    localStorage.removeItem("isLogin");
-    redirect("/");
-  }
+  const session = await getSession();
+  session.destroy();
 };

@@ -1,15 +1,10 @@
 "use server";
 
 import bcrypt from "bcrypt";
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "@/lib/constants";
-import db from "@/lib/db";
 import { z } from "zod";
-import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import getSession from "lib/session";
+import db from "lib/db";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
@@ -37,8 +32,6 @@ const formSchema = z.object({
   password: z.string({
     required_error: "비밀번호를 입력해주세요",
   }),
-  // .min(PASSWORD_MIN_LENGTH),
-  // .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 
 export async function logIn(prevState: any, formData: FormData) {
@@ -56,10 +49,6 @@ export async function logIn(prevState: any, formData: FormData) {
       where: {
         email: result.data.email,
       },
-      select: {
-        id: true,
-        password: true,
-      },
     });
     const ok = await bcrypt.compare(
       //문자와 해시값 비교
@@ -71,12 +60,16 @@ export async function logIn(prevState: any, formData: FormData) {
     if (ok) {
       const session = await getSession();
       session.id = user!.id;
+      session.userRole = user!.userRole || "";
+      session.plant_status = user!.plant_status || 0;
+      session.last_water_at = user!.last_water_at || undefined;
+      console.log(session.userRole);
       await session.save();
-      localStorage.setItem("isLogin", "true");
       redirect("/workspace");
+      //리턴이 없으면 다음 페이지로 넘어가고 로컬 스토리지에 로그인을 저장
     } else {
       return {
-        //zod 인척 하는 용도
+        //zod 대신의 용도
         fieldErrors: {
           password: ["비밀번호가 불일치합니다."],
           email: [],

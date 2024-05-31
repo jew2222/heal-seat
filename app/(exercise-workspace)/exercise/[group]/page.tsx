@@ -27,8 +27,6 @@ export default function Main({ params }: { params: { group: string } }) {
   const group = params.group.toUpperCase();
   const [videos, setVideos] = useState<Video[]>([]);
 
-  console.log("페이지에서 " + getCategoryKor(group));
-
   const handlePostVideos = async () => {
     try {
       const result = await fetchAndSaveVideos(
@@ -55,14 +53,9 @@ export default function Main({ params }: { params: { group: string } }) {
   }, []);
 
   return (
-    <div className="flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl w-full">
+    <div className="screen w-full">
       <div className="w-full">
-        {/*   */}
-
-        <div className="w-full text-2xl font-bold bg-primary py-6 px-8">
-          {" "}
-          {getCategoryKor(params.group)}
-        </div>
+        <div className="header-line"> {getCategoryKor(params.group)}</div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1">
           {videos.map((video) => (
             <div key={video.id} className="p-4 border rounded-lg">

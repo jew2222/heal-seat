@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { logIn } from "./actions";
 import { PASSWORD_MIN_LENGTH } from "lib/constants";
@@ -8,9 +9,20 @@ import FormButton from "components/FormButton";
 import ReactDOM from "react-dom";
 import MainLogo from "components/Logo/MainLogo";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { stat } from "fs";
 
 export default function LogIn() {
   const [state, dispatch] = useFormState(logIn, null);
+  //const [loginSuccess, setLoginSuccess] = useState(false);
+
+  //로컬스토리지 사용을 위해
+  useEffect(() => {
+    //console.log("성공" + state);
+    // if(state)
+    // localStorage.setItem("isLogin", "true");
+    // redirect("/workspace");
+  }, [state]);
   return (
     <div className="screen justify-center ">
       <div className="formBox">
@@ -28,7 +40,7 @@ export default function LogIn() {
             type="email"
             placeholder="Email"
             required
-            errors={state?.fieldErrors.email}
+            errors={state?.fieldErrors?.email}
           />
           <Input
             name="password"

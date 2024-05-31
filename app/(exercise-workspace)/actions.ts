@@ -8,7 +8,10 @@ const VIDEO_API_URL = "https://www.googleapis.com/youtube/v3/videos";
 
 export async function fetchAndSaveVideos(query: string, category: string) {
   const MAX_RESULT = 50;
-  const url = `${YOUTUBE_SEARCH_API_URL}?key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}&q=${query}&part=snippet&type=video&maxResults=${MAX_RESULT}&videoEmbeddable=true&safeSearch=strict`;
+  const excludedKeyword = "-누워서 -브릿지";
+  const optionalPart = `|"앉아서 할 수 있는 운동"`;
+  const modifiedQuery = `${query} ${excludedKeyword} ${optionalPart}`;
+  const url = `${YOUTUBE_SEARCH_API_URL}?key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}&q=${encodeURIComponent(modifiedQuery)}&part=snippet&type=video&maxResults=${MAX_RESULT}&videoEmbeddable=true&safeSearch=strict`;
 
   try {
     const response = await fetch(url);

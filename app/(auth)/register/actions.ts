@@ -5,19 +5,11 @@ import {
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from "lib/constants";
-import db from "@/lib/db";
+import db from "lib/db";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
+import getSession from "lib/session";
 
-/*
-const passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
-);
-const checkPasswords = ({ password, confirm_password }: checkPasswordType) =>
-  password === confirm_password;
-
-*/
 // 밸리데이션 검사 함수
 const checkPasswords = ({
   password,
@@ -38,7 +30,6 @@ const formSchema = z
       .trim(),
     email: z.string().email().toLowerCase(), // 변형 가능
     password: z.string().min(PASSWORD_MIN_LENGTH),
-    // .regex(passwordRegex, "에러 안내문"), //정규식을 사용할 경우
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
     userrole: z.string(),
   })
@@ -65,7 +56,6 @@ const formSchema = z
     }
   })
   .superRefine(async ({ email }, ctx) => {
-    //전체 행 말고 원하는 데이터만 가져오기
     const user = await db.user.findUnique({
       where: {
         email,
@@ -111,26 +101,26 @@ export async function createAccount(prevState: any, formData: FormData) {
         password: hashedPassword,
         userRole: result.data.userrole,
       },
-      select: {
-        id: true,
-      },
     });
     /*
     getIronSession(cookies(), {
-      cookieName: "hsc",
+      cookieName: "isLogin",
       password: process.env.COOKIE_PASSWORD, //쿠키 암호화를 위해 사용
     });
     */
     const session = await getSession();
     /* 겟세션 함수 내용
      const session = await getIronSession(cookies(), {
-    cookieName: "hsc",
+    cookieName: "isLogin",
       password: process.env.COOKIE_PASSWORD, //쿠키 암호화를 위해 사용
     });
     강의 에선 변수명이 세션 아닌 쿠키 
     */
     //세션쿠키에 정보 넣고 저장
     session.id = user.id;
+    session.userRole = user.userRole || "";
+    session.plant_status = user.plant_status || 0;
+    session.last_water_at = user.last_water_at || undefined;
     await session.save();
     redirect("/workspace");
   }

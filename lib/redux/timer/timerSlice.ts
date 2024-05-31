@@ -25,6 +25,8 @@ const timerSlice = createSlice({
     //},
     reset: (state) => {
       state.time = 0; //하루 지나면 초기화
+      state.isActive = false;
+
       console.log("타이머 리셋");
     },
     setActive: (state, action: PayloadAction<boolean>) => {

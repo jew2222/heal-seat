@@ -1,29 +1,57 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
-    const { timer } = req.body;
+// 화분 상태 업데이트
+async function updatePlantStatus() {
+  const plant = await prisma.plant.findUnique({ where: { id: plantId } });
+  if (!plant) {
+    throw new Error("Plant not found");
+  }
 
-    try {
-      // 유저 ID는 세션이나 토큰으로부터 가져온다고 가정합니다
-      const userId = 1; // 예시로 하드코딩한 유저 ID
+  const now = new Date();
+  const diffInDays =
+    (now - new Date(plant.lastClickedAt)) / (1000 * 60 * 60 * 24);
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // 오늘 날짜로 설정
+  let newStatus = 5; // 기본 상태: 좋음
+  if (diffInDays >= 30) {
+    newStatus = 1; // 죽음
+  } else if (diffInDays >= 7) {
+    newStatus = 2; // 시듬
+  } else if (diffInDays >= 3) {
+    newStatus = 3; // 시름시름
+  } else if (diffInDays >= 2) {
+    newStatus = 4; // 보통
+  }
 
-      // 오늘의 타이머 데이터를 찾거나 생성
+  const updatedPlant = await prisma.plant.update({
+    where: { id: plantId },
+    data: {
+      status: newStatus,
+      lastClickedAt: now,
+    },
+  });
 
-      res.status(200).json(timerData);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to save timer data" });
-    }
+  return updatedPlant;
+}
+
+// 화분 상태 업
+async function incrementPlantStatus() {
+  const plant = await prisma.plant.findUnique({ where: { id: plantId } });
+  if (!plant) {
+    throw new Error("Plant not found");
+  }
+
+  if (plant.status < 5) {
+    const updatedPlant = await prisma.plant.update({
+      where: { id: plantId },
+      data: {
+        status: plant.status + 1,
+        lastClickedAt: new Date(),
+      },
+    });
+
+    return updatedPlant;
   } else {
-    res.status(405).json({ message: "Method not allowed" });
+    return plant; // 상태가 최고치면 그대로 반환
   }
 }

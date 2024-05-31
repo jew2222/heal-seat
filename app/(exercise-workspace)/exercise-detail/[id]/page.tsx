@@ -31,31 +31,29 @@ export default function ExerciseDetail({ params }: { params: { id: string } }) {
   }, []);
 
   return (
-    <div className="flex flex-col items-center  min-h-screen py-16  *:items-center max-w-screen-2xl w-full">
-      <div className="w-full">
-        {/*   */}
-
-        <div className="w-full text-2xl font-bold bg-primary py-6 px-8">
+    <div className="screen w-full">
+      <div className="w-full ">
+        <div className="header-line min-h-20">
           {" "}
           {video && decodeHtmlEntities(video.title)}
         </div>
         {video && (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1">
+          <div className=" flex justify-center">
             {
-              <div className="p-4 border rounded-lg">
-                <div className="*:my-5">
+              <div className="p-6 border rounded-lg">
+                <div className="*:my-5 max-w-[64.5rem]">
                   <iframe
                     color="white"
-                    width="560"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${video.video_id}`}
+                    className="w-[64.5rem] h-[36rem] "
+                    src={`https://www.youtube.com/embed/${video.video_id}?autoplay=1`}
                     title="YouTube video player"
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; autoplay"
                     allowFullScreen
                   ></iframe>
-                  <p className="line-clamp-2">{video.channel_name}</p>
-
-                  <p className="line-clamp-2">{video.description}</p>
+                  <h1 className="line-clamp-2 font-bold text-3xl py-4">
+                    {video.channel_name}
+                  </h1>
+                  <h2 className=" text-2xl">{video.description}</h2>
                 </div>
               </div>
             }

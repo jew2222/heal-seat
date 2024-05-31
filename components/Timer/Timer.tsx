@@ -21,13 +21,11 @@ export default function Timer() {
   const dispatch = useDispatch();
 
   const getTodayTime = async () => {
-    //저장된 오늘 시간 불러오기
     try {
       const result = await findTodayTimer();
       if (result) {
         setByAmount(result);
       }
-      // result && setVideos(result);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -58,8 +56,8 @@ export default function Timer() {
   useEffect(() => {
     // 페이지가 언로드될 때 타이머 데이터를 서버에 전송
     const handleUnload = () => {
+      setTodayTimer(time);
       console.log("타이머 언로드");
-      //   setTodayTimer(time);
     };
 
     window.addEventListener("beforeunload", handleUnload);
@@ -82,15 +80,22 @@ export default function Timer() {
         <h1 className="text-3xl font-bold ">{dayjs().format("MM.DD(ddd)")}</h1>
         <div className="text-5xl font-bold m-4">{formatTime(time)}</div>
       </div>
-      <button
-        className={`px-6 py-3 m-5 text-2xl font-bold rounded ${
-          isActive ? "bg-secondary" : "bg-primary"
-        } text-white`}
-        onClick={() => dispatch(setActive(!isActive))} // setIsActive((prev) => !prev)}
-      >
-        {isActive ? "Pause" : "Start"}
-      </button>
-      <button onClick={() => dispatch(reset())}>Reset</button>
+      <div>
+        <button
+          className={`px-3 py-3 mx-2 my-6  text-2xl font-bold rounded ${
+            isActive ? "bg-secondary" : "bg-primary"
+          } text-white`}
+          onClick={() => dispatch(setActive(!isActive))} // setIsActive((prev) => !prev)}
+        >
+          {isActive ? "Pause" : "Start"}
+        </button>
+        <button
+          className={`px-3 py-3 mx-2 my-6 text-2xl font-bold rounded ${"bg-primary"} text-white`}
+          onClick={() => dispatch(reset())} // setIsActive((prev) => !prev)}
+        >
+          {"Reset"}
+        </button>
+      </div>
     </div>
   );
 }
