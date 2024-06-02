@@ -1,11 +1,7 @@
 "use client";
 
-import Nav from "components/Nav";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchAndSaveVideos, findVideo, findVideos } from "../../actions";
-import Link from "next/link";
-import { getCategoryKor } from "lib/utils";
 import { Video } from "types/type";
 
 export default function ExerciseDetail({ params }: { params: { id: string } }) {

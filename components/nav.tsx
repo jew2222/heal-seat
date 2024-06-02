@@ -2,22 +2,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import MainLogo from "./Logo/MainLogo";
-import { redirect } from "next/navigation";
 import { logOut } from "app/actions";
-import { usePathname, useRouter } from "next/navigation";
-
-import { stat } from "fs";
+import { usePathname } from "next/navigation";
 
 const Nav = () => {
   const [state, setState] = useState<string>("");
   const pathname = usePathname();
-  const router = useRouter();
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     setState(pathname);
-    console.log(pathname);
   }, [pathname]);
 
   useEffect(() => {}, [state]);

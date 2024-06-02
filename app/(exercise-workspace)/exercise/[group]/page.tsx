@@ -1,13 +1,11 @@
 "use client";
 
-import Nav from "components/Nav";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchAndSaveVideos, findVideos } from "../../actions";
 import Link from "next/link";
 import { getCategoryKor } from "lib/utils";
 import { Video } from "types/type";
-import { Gruppo } from "next/font/google";
 
 //   const videos = [
 //     {
