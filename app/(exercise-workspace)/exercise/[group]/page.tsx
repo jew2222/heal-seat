@@ -86,7 +86,7 @@ export default function Main({ params }: { params: { group: string } }) {
 
       <button
         onClick={handlePostVideos}
-        className="px-4 py-2 bg-muted text-white rounded hover:bg-blue-700"
+        className="hidden px-4 py-2 bg-muted text-white rounded hover:bg-blue-700"
       >
         유튜브 운동영상을 불러와 DB에 저장
       </button>

@@ -1,9 +1,20 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+import db from "lib/db";
+import getSession from "lib/session";
+import { redirect } from "next/navigation";
 
+export const checkLogin = async () => {
+  const session = await getSession();
+  return session;
+};
+
+if (typeof window !== "undefined") {
+  const result = localStorage.getItem("isLogin");
+}
+
+/*
 // 화분 상태 업데이트
 async function updatePlantStatus() {
-  const plant = await prisma.plant.findUnique({ where: { id: plantId } });
+  const plant = await db.plant.findUnique({ where: { id: plantId } });
   if (!plant) {
     throw new Error("Plant not found");
   }
@@ -23,7 +34,7 @@ async function updatePlantStatus() {
     newStatus = 4; // 보통
   }
 
-  const updatedPlant = await prisma.plant.update({
+  const updatedPlant = await db.plant.update({
     where: { id: plantId },
     data: {
       status: newStatus,
@@ -34,12 +45,14 @@ async function updatePlantStatus() {
   return updatedPlant;
 }
 
-// 화분 상태 업
+
 async function incrementPlantStatus() {
-  const plant = await prisma.plant.findUnique({ where: { id: plantId } });
+  /*
+  const plant = await db.user.findUnique({ where: { id:  } });
   if (!plant) {
     throw new Error("Plant not found");
   }
+
 
   if (plant.status < 5) {
     const updatedPlant = await prisma.plant.update({
@@ -54,4 +67,6 @@ async function incrementPlantStatus() {
   } else {
     return plant; // 상태가 최고치면 그대로 반환
   }
+  
 }
+*/
