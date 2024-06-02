@@ -4,20 +4,23 @@ import Link from "next/link";
 import MainLogo from "./Logo/MainLogo";
 import { redirect } from "next/navigation";
 import { logOut } from "app/actions";
-//import useCookieObserver from "lib/cookieObserver";
+import { usePathname, useRouter } from "next/navigation";
+
+import { stat } from "fs";
 
 const Nav = () => {
-  const [isLogin, setIsLogin] = useState<string | null>("false");
-  // const { cookieValue } = useCookieObserver<string | null>("isLogin");
-  if (typeof window !== "undefined") {
-    const result = localStorage.getItem("isLogin");
-    result && setIsLogin("true");
-  }
+  const [state, setState] = useState<string>("");
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
-    console.log(" 로그인" + isLogin);
-  }, [isLogin]);
-  //console.log(isLogin);
+    setState(pathname);
+    console.log(pathname);
+  }, [pathname]);
+
+  useEffect(() => {}, [state]);
   return (
     <nav className="max-w-screen-2xl  absolute top-0 flex w-full py-6 justify-between *:font-semibold  *:nav-text z-40">
       <MainLogo></MainLogo>
@@ -27,15 +30,19 @@ const Nav = () => {
         <Link href="/workspace">워크스페이스</Link>
       </div>
 
-      {/* <form action={() => logOut()}>
-          <button className="px-4 txext-black mx-auto p-2 pt-0 ">
-            로그아웃
-          </button>
-        </form>
-  */}
-      <Link href="/login" className={`${isLogin === "true" && "invisible"}`}>
-        로그인
-      </Link>
+      {pathname !== "/login" ? (
+        pathname === "/workspace" ? (
+          <form action={() => logOut()}>
+            <button className="px-4 txext-black mx-auto p-2 pt-0 ">
+              로그아웃
+            </button>
+          </form>
+        ) : (
+          <Link href="/login">로그인</Link>
+        )
+      ) : (
+        <div className="invisible">로그인</div>
+      )}
     </nav>
   );
 };

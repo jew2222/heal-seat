@@ -20,6 +20,7 @@ export default function Timer() {
   const isActive = useSelector((state: RootState) => state.timer.isActive);
   const dispatch = useDispatch();
 
+  /*
   const getTodayTime = async () => {
     try {
       const result = await findTodayTimer();
@@ -30,9 +31,9 @@ export default function Timer() {
       console.error("Error:", error);
     }
   };
-
+*/
   useEffect(() => {
-    getTodayTime();
+    // getTodayTime();
   }, []);
 
   useEffect(() => {
@@ -57,7 +58,6 @@ export default function Timer() {
     // 페이지가 언로드될 때 타이머 데이터를 서버에 전송
     const handleUnload = () => {
       setTodayTimer(time);
-      console.log("타이머 언로드");
     };
 
     window.addEventListener("beforeunload", handleUnload);

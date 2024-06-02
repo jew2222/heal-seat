@@ -53,10 +53,10 @@ export async function findTodayTimer() {
           date: today,
         },
       });
-      console.log("Today's timer 불러오기:", data && data);
+      //console.log("Today's timer 불러오기:", data && data);
       return data;
     } catch (error) {
-      console.error("타이머 데이터 불러오기 실패:", error);
+      //console.error("타이머 데이터 불러오기 실패:", error);
       return null;
     }
   } else {
@@ -85,11 +85,11 @@ export async function setTodayTimer(totalTime: number) {
         date: today,
       },
     });
-    console.error("타이머 데이터 수정:", updatedData);
+    //console.error("타이머 데이터 수정:", updatedData);
 
     return updatedData;
   } catch (error) {
-    console.error("타이머 데이터 수정 실패:", error);
+    //console.error("타이머 데이터 수정 실패:", error);
     return null;
   }
 }
@@ -97,4 +97,5 @@ export async function setTodayTimer(totalTime: number) {
 export const logOut = async () => {
   const session = await getSession();
   session.destroy();
+  redirect("/");
 };

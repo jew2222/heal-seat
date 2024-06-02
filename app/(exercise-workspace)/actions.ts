@@ -67,7 +67,6 @@ export async function findVideos(category: string) {
       },
       take: 20,
     });
-    ////    console.log(savedVideos);
     return savedVideos;
   } catch (error) {
     console.error("유튜브 가져오기 오류", error);
